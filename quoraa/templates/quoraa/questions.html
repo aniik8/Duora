@@ -1,0 +1,49 @@
+{% extends "quoraa/base.html" %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<title>Questions</title>
+<h4 class="font-weight-light">Ask Your Questions Here</h4>
+<form method="post">
+    {% csrf_token %}
+    {{ form.media }}
+    {{form|crispy}}
+    <input class="btn btn-primary"  type="Submit" value="Submit">
+</form>
+<br>
+<h4 class="font-weight-light">Some Previously asked Questions.</h4><br>
+{% for question in questions %}
+<div class="media border p-3 bg-light ">
+    <div class="media-body bg-light">
+<h4>{{question|title|safe}}</h4>
+<small>Added On {{question.datee}}</small>
+{% if question.user == request.user %}
+    <small>Added by <a class="mr-2" href="{% url 'user_profile' question.user.username %}">You</a></small><br>
+{%else%}
+    <small>Added by <a class="mr-2" href="{% url 'user_profile' question.user.username %}">{{question.user}}</a></small><br>
+{% endif %}
+<br>
+<a class="ml-1 btn btn-info" href="{% url 'showanswer' question.id %}">Answer or See Answer</a>
+    </div>
+{% if question.user == request.user %}
+
+    <div class="dropdown ">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li><a class="btn btn-light" href="{% url 'update' question.id %}">Update</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a class="btn " href="{% url 'delete' question.id%}">Wanna delete?</a></li>
+
+        </ul>
+</div>
+{% endif %}
+
+
+
+</div>
+<br>
+{% endfor %}
+{% endblock %}

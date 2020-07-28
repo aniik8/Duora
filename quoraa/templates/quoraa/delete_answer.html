@@ -1,0 +1,24 @@
+{% extends "quoraa/base.html" %}
+{% block content %}
+{% load crispy_forms_tags %}
+<title>Delete Answer</title>
+{% if messages%}
+
+        {%for message in messages%}
+           <div class="alert alert-danger" role="alert">
+            {{message}}
+            </div>
+        {% endfor %}
+
+    {% endif %}
+<br>
+<hr style="height:1px;border-width:0; color:gray;background-color:gray">
+<h5>{{item|safe}}</h5>
+<br>
+<form method="post">
+    {% csrf_token %}
+    <input class="btn btn-outline-danger" type="submit" value="Submit">
+
+
+</form>
+{% endblock %}

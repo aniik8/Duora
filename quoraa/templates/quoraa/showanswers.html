@@ -1,0 +1,74 @@
+{% extends "quoraa/base.html" %}
+{% block content %}
+{% load crispy_forms_tags %}
+<script>
+    CKEDITOR.replace('editor1', {
+      width: '70%',
+      height: 500
+    });
+  </script>
+
+
+<title>Answers</title>
+
+    <div class="media border bg-light p-3">
+        <div class="media-body bg-light">
+            <h1>{{question|title|safe}}</h1>
+            <small class="text-muted">{{number}} Answers</small>
+        </div></div>
+<br>
+{% for answer in answers %}
+     <div class="media border bg-light p-3">
+        <div class="media-body bg-light">
+
+        <small>Answered by <a class="mr-2" href="{% url 'user_profile' answer.user.username %}">{{answer.user}}</a></small>
+            <br>
+            <p>{{answer|title|safe}}</p>
+            <br>
+
+
+     <form action="{% url 'like' answer.id question.id %}" method="post">
+         {%csrf_token%}
+            {% if user  in answer.likes.all %}
+                <button type="submit" name="answer_like" value="{{ answer.id }}" class="btn btn-outline-danger btn-small">Unlike<span class="badge">{{answer.total_likes}}</span></button>
+            {% else %}
+                <button type="submit" name="answer_like" value="{{ answer.id }}" class="btn btn-outline-primary btn-small">Like<span class="badge">{{answer.total_likes}}</span></button>
+            {% endif %}
+     </form>
+            </div>
+     {% if request.user == answer.user %}
+    <div class="dropdown ">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li><a class="btn btn-light" href="{% url 'update_answer' answer.id %}">Edit here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a class="btn " href="{% url 'delete_answer' answer.id%}">Wanna delete?</a></li>
+
+        </ul>
+</div>
+{%endif%}
+     </div>
+<br>
+<hr style="height:1px;border-width:0; color:gray;background-color:gray">
+{% endfor %}
+<br>
+{%if not answered %}
+    <h5>Can you answer this Question?</h5>
+    <form method="POST">
+        {%csrf_token%}
+            {{form.media}}
+            {{form|crispy}}
+            <input class="btn btn-outline-primary" type="submit" value="Submit">
+    </form>
+{%else%}
+     <h5>You've already answered this question</h5>
+
+{%endif%}
+        </div>
+    <div class="col-sm-4"></div>
+</div>
+{% endblock %}
+

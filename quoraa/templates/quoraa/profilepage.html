@@ -1,0 +1,36 @@
+{% extends "quoraa/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+        .link{color : #000000;}
+        .article-img {
+  height: 65px;
+  width: 65px;
+  margin-right: 16px;
+}
+    </style>
+
+<title>Profile Preview </title>
+<h4 class="text-center">Preview of Your Profile</h4>
+<br>
+<div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+        <div class="media p-2">
+            <div class="media-body">
+            <img class="rounded-circle article-img" src="{{user.profile.profile_image.url}}"  alt="Unable to upload">
+            <h4 class="mr-2">Username:</h4><p>{{user.username}}</p>
+
+            <h4>Email</h4><p>{{user.email}}</p><br>
+
+            <h4>Bio</h4> <p>{{user.profile.bio}}</p>
+</div>
+            </div>
+    </div>
+
+    <div class="col-sm-3"></div>
+    {% for questions in questions%}
+        {{ questions }}
+{% endfor %}
+</div>
+{% endblock %}

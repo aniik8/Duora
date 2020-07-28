@@ -1,0 +1,15 @@
+{% extends "quoraa/base.html" %}
+{% block content %}
+{% load crispy_forms_tags %}
+    <title>Update</title>
+
+<body>
+<h5>Update Question here</h5>
+<hr style="height:1px;border-width:0; color:gray;background-color:gray">
+<form method ='post'>
+{% csrf_token %}
+    {{ form.media }}
+    {{form|crispy}}
+    <input class="btn btn-outline-success" type="Submit" value="Update">
+</form>
+{% endblock %}

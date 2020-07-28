@@ -1,0 +1,12 @@
+{% extends "quoraa/base.html" %}
+{% block content %}
+{% load crispy_forms_tags %}
+<title>Delete Question</title>
+<p>Are You sure you waana delete this question?</p>
+<hr style="height:1px;border-width:0; color:gray;background-color:gray">
+<h5>{{item|safe}}</h5>
+<form method="post">
+    {% csrf_token %}
+    <input class="btn btn-outline-danger" type="submit" value="Delete">
+</form>
+{% endblock %}
